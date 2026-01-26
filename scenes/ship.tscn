@@ -8,7 +8,7 @@
 gradient = SubResource("Gradient_q631a")
 fill_to = Vector2(0.023364486, 0.023364486)
 
-[node name="ship" type="Node2D"]
+[node name="Ship" type="Node2D"]
 script = ExtResource("1_q631a")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

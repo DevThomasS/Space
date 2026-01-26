@@ -25,5 +25,8 @@ func _ready():
 	z_index = 0
 
 func arrive():
-	to_planet.receive_ship()
+	if to_planet.faction == from_planet.faction:
+		to_planet.add_reinforcement()
+	else:
+		to_planet.receive_ship(from_planet.faction)
 	queue_free()
