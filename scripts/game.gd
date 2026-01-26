@@ -52,13 +52,18 @@ func get_planet_at_mouse():
 	return null
 
 func handle_planet_click(planet):
-	if selected_planet == null:
+	if selected_planet == null && planet.faction == Planet.Faction.PLAYER:
 		selected_planet = planet
 	else:
+		if planet == selected_planet:
+			selected_planet = null
+			return
 		send_ships(selected_planet, planet)
 		selected_planet = null
 
 func send_ships(from_planet, to_planet):
+	if from_planet == null || to_planet == null:
+		return
 	var orbit = from_planet.orbit
 	var total = orbit.get_child_count()
 
@@ -76,5 +81,6 @@ func send_ships(from_planet, to_planet):
 		ship.from_planet = from_planet
 		ship.to_planet = to_planet
 		ship.global_position = from_planet.global_position
+		ship.t = 0.0
 
 		$Fleets.add_child(ship)

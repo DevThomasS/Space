@@ -18,6 +18,7 @@ var defenders := 0
 
 func _ready():
 	z_index = 1
+	defenders = orbit.get_child_count()
 	update_color()
 
 func update_color():
@@ -43,6 +44,7 @@ func spawn_ship():
 	var ship = preload("res://scenes/Ship.tscn").instantiate()
 	orbit.add_child(ship)
 	orbit_ships.append(ship)
+	defenders += 1
 	update_orbit_positions()
 
 func receive_ship():
@@ -63,6 +65,8 @@ func available_ships() -> int:
 	return orbit.get_child_count()
 
 func remove_orbit_ship(ship: Ship) -> void:
+	if ship.get_parent():
+		ship.get_parent().remove_child(ship)
 	orbit_ships.erase(ship)
 	update_orbit_positions()
 

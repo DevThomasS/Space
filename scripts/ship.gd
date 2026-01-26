@@ -10,7 +10,7 @@ var travel_speed := 200.0
 var t := 0.0
 
 func _process(delta):
-	if not from_planet or not to_planet:
+	if state != State.TRAVELING or not from_planet or not to_planet:
 		return
 
 	t += delta * travel_speed / from_planet.position.distance_to(to_planet.position)
