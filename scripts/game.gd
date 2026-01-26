@@ -70,7 +70,7 @@ func send_ships(from_planet, to_planet):
 
 	for i in range(to_send):
 		var ship = orbit.get_child(0)
-		orbit.remove_child(ship)
+		from_planet.remove_orbit_ship(ship)
 
 		ship.state = ship.State.TRAVELING
 		ship.from_planet = from_planet

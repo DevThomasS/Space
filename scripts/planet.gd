@@ -9,10 +9,15 @@ enum Faction { NEUTRAL, PLAYER, AI }
 @onready var sprite := $Sprite2D
 @onready var orbit := $Orbit
 
+const ORBIT_RADIUS := 48.0
+const ORBIT_SPACING := 12.0
+
+var orbit_ships: Array[Node2D] = []
 var spawn_timer := 0.0
 var defenders := 0
 
 func _ready():
+	z_index = 1
 	update_color()
 
 func update_color():
@@ -36,9 +41,9 @@ func _process(delta):
 
 func spawn_ship():
 	var ship = preload("res://scenes/Ship.tscn").instantiate()
-	ship.state = ship.State.ORBITING
-	ship.angle = randf() * TAU
 	orbit.add_child(ship)
+	orbit_ships.append(ship)
+	update_orbit_positions()
 
 func receive_ship():
 	if faction == Faction.NEUTRAL:
@@ -56,3 +61,21 @@ func receive_ship():
 
 func available_ships() -> int:
 	return orbit.get_child_count()
+
+func remove_orbit_ship(ship: Ship) -> void:
+	orbit_ships.erase(ship)
+	update_orbit_positions()
+
+func update_orbit_positions() -> void:
+	var count := orbit_ships.size()
+	if count == 0:
+		return
+
+	for i in orbit_ships.size():
+		var ship := orbit_ships[i]
+		var angle := TAU * float(i) / float(count)
+		var radius := ORBIT_RADIUS
+		ship.position = Vector2(
+			cos(angle),
+			sin(angle)
+		) * radius
