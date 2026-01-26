@@ -3,14 +3,15 @@ class_name Planet extends Node2D
 enum Faction { NEUTRAL, PLAYER, AI }
 
 @export var faction: Faction = Faction.NEUTRAL
-@export var spawnRate := 1.0
-@export var maxShips := 50
+@export var spawn_rate := 1.0
+@export var max_ships := 50
 
 @onready var sprite := $Sprite2D
 @onready var orbit: Orbit = $Orbit
 
-var spawnTimer := 0.0
+var spawn_timer := 0.0
 var defenders := 0
+var level_ref: BaseLevel
 
 func _ready():
 	z_index = 1
@@ -25,15 +26,17 @@ func update_color():
 			sprite.modulate = Color.CORNFLOWER_BLUE
 		Faction.AI:
 			sprite.modulate = Color.INDIAN_RED
+	if level_ref:
+		level_ref.call_deferred("check_victory")
 
 func _process(delta):
 	if faction == Faction.NEUTRAL:
 		return
-	if orbit.count() >= maxShips:
+	if orbit.count() >= max_ships:
 		return
-	spawnTimer += delta
-	if spawnTimer >= 1.0 / spawnRate:
-		spawnTimer = 0.0
+	spawn_timer += delta
+	if spawn_timer >= 1.0 / spawn_rate:
+		spawn_timer = 0.0
 		spawn_ship()
 
 func spawn_ship():
@@ -48,13 +51,13 @@ func remove_orbit_ship(ship: Ship) -> void:
 	orbit.remove_ship(ship)
 	defenders = max(defenders - 1, 0)
 
-func receive_ship(fromFaction: Faction):
-	if fromFaction == faction:
+func receive_ship(from_faction: Faction):
+	if from_faction == faction:
 		add_reinforcement()
 		return
 	defenders -= 1
 	if defenders < 0:
-		faction = fromFaction
+		faction = from_faction
 		update_color()
 		defenders = abs(defenders)
 

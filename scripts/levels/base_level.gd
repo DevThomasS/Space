@@ -1,33 +1,20 @@
-class_name LevelOne extends Node2D
+class_name BaseLevel extends Node2D
 
 @onready var fleets := $Fleets
-@onready var queries := PlanetQuery.new()
-@onready var blinky := Blinky.new()
 
-var selectedPlanet: Planet = null
-var sendFraction := 0.5
+var send_fraction := 0.5
 
 func _ready():
-	add_child(queries)
-	blinky.levelOne = self
-	blinky.queries = queries
-	add_child(blinky)
+	for planet in get_tree().get_nodes_in_group("planets"):
+		planet.level_ref = self
 
-func _unhandled_input(event):
-	if event is InputEventMouseButton and event.pressed:
-		var clicked := get_planet_at_mouse()
-		if clicked:
-			handle_planet_click(clicked)
-
-func handle_planet_click(planet: Planet):
-	if selectedPlanet == null and planet.faction == Planet.Faction.PLAYER:
-		selectedPlanet = planet
-		return
-	if planet == selectedPlanet:
-		selectedPlanet = null
-		return
-	send_ships(selectedPlanet, planet)
-	selectedPlanet = null
+func check_victory() -> void:
+	var planets = get_tree().get_nodes_in_group("planets")
+	for planet in planets:
+		if planet.faction == Planet.Faction.AI:
+			return
+	print("Victory! Returning to main menu...") #TODO: just for now for clarity of change
+	get_tree().call_deferred("change_scene_to_file", "res://scenes/levels/main_menu.tscn")
 
 func send_ships(from: Planet, to: Planet):
 	if not from or not to:
@@ -36,7 +23,7 @@ func send_ships(from: Planet, to: Planet):
 	var total := orbit.count()
 	if total == 0:
 		return
-	var to_send := int(total * sendFraction)
+	var to_send := int(total * send_fraction)
 	to_send = max(to_send, 1)
 	for i in range(to_send):
 		if orbit.count() == 0:
