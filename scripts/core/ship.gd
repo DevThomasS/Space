@@ -8,8 +8,8 @@ var state := State.ORBITING
 var from_planet: Planet
 var to_planet: Planet
 var controlling_player: BasePlayer
-var strength := 1.0
-var travel_speed := 200.0
+
+@export var travel_speed := 200.0
 var t := 0.0
 
 func _ready():
@@ -29,7 +29,6 @@ func _process(delta):
 
 func arrive():
 	state = State.ORBITING
-	# Detach from Fleets BEFORE handing off
 	if get_parent():
 		get_parent().remove_child(self)
 	to_planet.receive_ship(self)

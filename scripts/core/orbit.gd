@@ -1,16 +1,24 @@
 class_name Orbit extends Node2D
 
 signal combat_started
-signal combat_resolved(result) # result is dictionary from Combat
+signal combat_resolved(result)
 
 @export var radius := 48.0
 @export var rotation_speed := 0.3
+@export var combat_tick_rate := 0.5 # seconds per combat tick
 
 var ships: Array[Ship] = []
 var in_combat := false
+var combat_timer := 0.0
 
 func _process(delta):
 	rotation += rotation_speed * delta
+
+	if in_combat:
+		combat_timer += delta
+		if combat_timer >= combat_tick_rate:
+			combat_timer = 0.0
+			_tick_combat()
 
 func add_ship(ship: Ship) -> void:
 	if ship.get_parent():
@@ -38,35 +46,51 @@ func update_positions():
 		var angle := TAU * float(i) / float(ship_count)
 		ships[i].position = Vector2(cos(angle), sin(angle)) * radius
 
-# --- Combat ---
+# -------------------------------------------------
+# Combat control
+# -------------------------------------------------
 
 func check_for_combat():
 	var fleets := get_fleets()
+
 	if fleets.size() <= 1:
 		if in_combat:
-			in_combat = false
-			var winner: BasePlayer = null
-			if fleets.size() == 1:
-				winner = fleets.keys()[0]
-			emit_signal("combat_resolved", {"winner": winner, "destroyed": [], "remaining": {}})
+			_end_combat(fleets)
 		return
-	
+
 	if not in_combat:
 		in_combat = true
+		combat_timer = 0.0
 		emit_signal("combat_started")
-	resolve_combat(fleets)
 
-func resolve_combat(fleets: Dictionary) -> void:
-	var result := Combat.resolve_orbit_combat(fleets)
-	
-	# Remove destroyed ships
-	for ship in result["destroyed"]:
+func _tick_combat():
+	var fleets := get_fleets()
+
+	if fleets.size() <= 1:
+		_end_combat(fleets)
+		return
+
+	var result := Combat.resolve_orbit_combat(fleets, combat_tick_rate)
+
+	for ship in result.destroyed:
 		remove_ship(ship)
 		ship.queue_free()
 
 	update_positions()
-	
-	emit_signal("combat_resolved", result)
+
+func _end_combat(fleets: Dictionary):
+	in_combat = false
+	combat_timer = 0.0
+
+	var winner: BasePlayer = null
+	if fleets.size() == 1:
+		winner = fleets.keys()[0]
+
+	emit_signal("combat_resolved", {
+		"winner": winner,
+		"destroyed": [],
+		"remaining": {}
+	})
 
 func get_fleets() -> Dictionary:
 	var fleets := {}

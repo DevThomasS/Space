@@ -1,5 +1,7 @@
 class_name BasePlayer extends Node
 
+@export var fleet_dps: float = 0.25
+
 var max_population := 0
 var current_population := 0
 var my_planets: Array[Planet] = []
