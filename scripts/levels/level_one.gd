@@ -7,13 +7,7 @@ class_name LevelOne extends BaseLevel
 @onready var human := Human.new()
 @onready var blinky := Blinky.new()
 
-var selected_planet: Planet = null
-
 func _ready():
-	# Reset all planets
-	for planet in get_tree().get_nodes_in_group("planets"):
-		if planet:
-			planet.set_controlling_player(null)
 	add_child(queries)
 	# Assign human player
 	human.level = self
@@ -26,3 +20,7 @@ func _ready():
 	if blinky_start_planet:
 		blinky.add_planet(blinky_start_planet)
 	add_child(blinky)
+	# Connect each planet's button to level's planet_clicked()
+	for planet in get_tree().get_nodes_in_group("planets"):
+		if planet.button:
+			planet.button.pressed.connect(Callable(self, "planet_clicked").bind(planet))

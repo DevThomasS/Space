@@ -19,6 +19,7 @@ func _ready():
 	defenders = orbit.count()
 	call_deferred("update_color")
 
+# Called every frame to spawn ships
 func _process(delta):
 	if controlling_player == null or orbit.count() >= max_ships:
 		return
@@ -63,7 +64,6 @@ func receive_ship(from_player: BasePlayer):
 	if controlling_player == from_player:
 		add_reinforcement()
 		return
-
 	defenders -= 1
 	if defenders < 0:
 		set_controlling_player(from_player)

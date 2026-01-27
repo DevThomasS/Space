@@ -4,6 +4,7 @@ class_name BaseLevel extends Node2D
 
 var send_fraction := 0.5
 var players: Array[BasePlayer] = []
+var selected_planet: Planet = null
 
 func check_victory():
 	for player in players:
@@ -35,3 +36,16 @@ func try_send_ship(orbit: Orbit, from: Planet, to: Planet):
 	ship.global_position = from.global_position
 	ship.t = 0.0
 	fleets.add_child(ship)
+
+func planet_clicked(clicked: Planet):
+	if selected_planet:
+		# Only send ships if they are different planets
+		if selected_planet != clicked:
+			# Use the controlling player's level to send ships
+			if selected_planet.controlling_player:
+				selected_planet.controlling_player.level.send_ships(selected_planet, clicked)
+		selected_planet = null
+		return
+	# No planet selected yet, select if human
+	if clicked.controlling_player and clicked.controlling_player is Human:
+		selected_planet = clicked

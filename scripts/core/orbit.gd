@@ -27,10 +27,6 @@ func update_positions() -> void:
 	var ship_count := ships.size()
 	if ship_count == 0:
 		return
-
 	for i in range(ship_count):
 		var angle := TAU * float(i) / float(ship_count)
-		ships[i].position = Vector2(
-			cos(angle),
-			sin(angle)
-		) * radius
+		ships[i].position = Vector2(cos(angle), sin(angle)) * radius

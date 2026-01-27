@@ -8,9 +8,6 @@ var queries: PlanetQuery
 var level: BaseLevel
 
 func add_planet(planet: Planet):
-	if planet == null:
-		push_error("Cannot add null planet")
-		return
 	if planet.controlling_player and planet.controlling_player != self:
 		planet.controlling_player.remove_planet(planet)
 	if planet not in my_planets:
