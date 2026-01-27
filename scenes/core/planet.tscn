@@ -16,10 +16,6 @@ fill_from = Vector2(0, 1)
 [node name="Planet" type="Node2D" groups=["planets"]]
 script = ExtResource("1_wsaxd")
 
-[node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-
 [node name="Orbit" type="Node2D" parent="."]
 script = ExtResource("2_744xv")
 
@@ -36,3 +32,18 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 icon = SubResource("GradientTexture2D_qu5ch")
+
+[node name="CaptureBar" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
