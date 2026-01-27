@@ -101,3 +101,13 @@ func get_fleets() -> Dictionary:
 			fleets[ship.controlling_player] = []
 		fleets[ship.controlling_player].append(ship)
 	return fleets
+
+func is_in_combat() -> bool:
+	return in_combat
+
+func get_ships_for_player(player: BasePlayer) -> int:
+	var ship_count := 0
+	for ship in ships:
+		if ship.controlling_player == player:
+			ship_count += 1
+	return ship_count

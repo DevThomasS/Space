@@ -30,11 +30,14 @@ func check_victory():
 	await get_tree().create_timer(0.5).timeout
 	get_tree().change_scene_to_file("res://scenes/levels/main_menu.tscn")
 
-func send_ships(from: Planet, to: Planet):
-	if not from or not to or from.controlling_player == null:
+func send_ships(from: Planet, to: Planet, player: BasePlayer = null):
+	if not from or not to:
+		return
+	var sender := player if player != null else from.controlling_player
+	if sender == null:
 		return
 	var orbit := from.orbit
-	var total := orbit.count()
+	var total := orbit.get_ships_for_player(sender)
 	if total == 0:
 		return
 	var to_send := int(total * send_fraction)

@@ -21,6 +21,12 @@ func take_turn():
 	for planet in my_planets:
 		if planet.controlling_player != self or planet.orbit.count() < min_ships_to_send:
 			continue
+		if planet.orbit.is_in_combat():
+			var my_ships = planet.orbit.get_ships_for_player(self)
+			var enemy_ships = planet.orbit.count() - my_ships
+			if my_ships < enemy_ships:
+				# Do NOT send ships, it'll likely lose the fight
+				continue
 		var target := queries.get_closest_planet(planet, targets)
 		if target:
-			level.send_ships(planet, target)
+			level.send_ships(planet, target, self)
