@@ -34,6 +34,8 @@ func _ready():
 func _process(delta):
 	# --- Capture visual + logic ---
 	if contested:
+		if orbit.in_combat:
+			return
 		capture_timer -= delta
 
 		if pending_owner:
@@ -62,7 +64,7 @@ func receive_ship(ship: Ship):
 	if ship == null:
 		return
 	orbit.add_ship(ship)
-	if controlling_player == null and not contested:
+	if controlling_player == null and not contested and not orbit.in_combat:
 		contested = true
 		pending_owner = ship.controlling_player
 		capture_timer = capture_time
