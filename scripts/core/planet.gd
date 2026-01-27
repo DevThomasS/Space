@@ -33,9 +33,16 @@ func _process(delta):
 func set_controlling_player(player: BasePlayer) -> void:
 	if controlling_player == player:
 		return
+	var previous_owner := controlling_player
+	if previous_owner:
+		previous_owner.remove_planet(self)
 	controlling_player = player
 	update_color()
 	owner_changed.emit(player)
+	if controlling_player:
+		controlling_player.add_planet(self)
+	if controlling_player and controlling_player.level:
+		controlling_player.level.check_victory()
 
 func update_color():
 	var c := Color(0.745, 0.745, 0.745, 1)

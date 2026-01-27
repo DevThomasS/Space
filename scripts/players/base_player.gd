@@ -7,6 +7,8 @@ var color: Color = Color.GRAY
 var queries: PlanetQuery
 var level: BaseLevel
 
+# BasePlayer never changes ownership.
+# Planet.set_controlling_player() is the single authority.
 func add_planet(planet: Planet):
 	if planet.controlling_player and planet.controlling_player != self:
 		planet.controlling_player.remove_planet(planet)
