@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://07ueak18h10d"]
+[gd_scene load_steps=7 format=3 uid="uid://07ueak18h10d"]
 
 [ext_resource type="Script" uid="uid://bhlfl020banrk" path="res://scripts/core/planet.gd" id="1_wsaxd"]
 [ext_resource type="Script" uid="uid://ctkt32fwb3b3w" path="res://scripts/core/orbit.gd" id="2_744xv"]
+[ext_resource type="AudioStream" uid="uid://cy3fvilhasf1a" path="res://assets/capture.wav" id="3_qu5ch"]
+[ext_resource type="AudioStream" uid="uid://cjmu4ey2flrf7" path="res://assets/pulse.wav" id="4_7bwmi"]
 
 [sub_resource type="Gradient" id="Gradient_ojvo4"]
 offsets = PackedFloat32Array(0, 0.28666666, 1)
@@ -47,3 +49,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
+
+[node name="CaptureSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_qu5ch")
+volume_db = -23.0
+
+[node name="ShipDestroyedSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_7bwmi")
+volume_db = -20.0

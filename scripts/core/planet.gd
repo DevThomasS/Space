@@ -9,6 +9,8 @@ signal owner_changed(new_owner)
 @onready var orbit: Orbit = $Orbit
 @onready var button: Button = $Button
 @onready var capture_bar: ColorRect = $CaptureBar
+@onready var capture_sound: AudioStreamPlayer = $CaptureSound
+@onready var ship_destroyed_sound: AudioStreamPlayer = $ShipDestroyedSound
 
 var spawn_timer := 0.0
 var controlling_player: BasePlayer
@@ -30,6 +32,7 @@ func _ready():
 
 	orbit.combat_started.connect(_on_combat_started)
 	orbit.combat_resolved.connect(_on_combat_resolved)
+	orbit.ship_destroyed_sound = ship_destroyed_sound
 
 func _process(delta):
 	# --- Capture visual + logic ---
@@ -111,6 +114,8 @@ func set_controlling_player(player: BasePlayer):
 	controlling_player = player
 	update_color()
 	owner_changed.emit(player)
+	if capture_sound:
+		capture_sound.play()
 
 	if controlling_player:
 		controlling_player.add_planet(self)

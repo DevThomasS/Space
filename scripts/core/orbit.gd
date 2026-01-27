@@ -10,6 +10,7 @@ signal combat_resolved(result)
 var ships: Array[Ship] = []
 var in_combat := false
 var combat_timer := 0.0
+var ship_destroyed_sound: AudioStreamPlayer
 
 func _process(delta):
 	rotation += rotation_speed * delta
@@ -65,18 +66,25 @@ func check_for_combat():
 
 func _tick_combat():
 	var fleets := get_fleets()
-
 	if fleets.size() <= 1:
 		_end_combat(fleets)
 		return
-
 	var result := Combat.resolve_orbit_combat(fleets, combat_tick_rate)
-
 	for ship in result.destroyed:
+		if ship_destroyed_sound:
+			play_destroy_ship_sound(ship)
 		remove_ship(ship)
 		ship.queue_free()
-
 	update_positions()
+
+func play_destroy_ship_sound(ship: Ship) -> void:
+	# Duplicate the sound player for overlapping play
+	var temp = ship_destroyed_sound.duplicate() as AudioStreamPlayer
+	ship.get_parent().add_child(temp)
+	temp.pitch_scale += (randf() - 0.5) * 0.4  # ±0.2 variation
+	temp.volume_db += (randf() - 0.5) * 4.0    # ±2 dB variation
+	temp.play()
+	temp.finished.connect(Callable(temp, "queue_free"))
 
 func _end_combat(fleets: Dictionary):
 	in_combat = false

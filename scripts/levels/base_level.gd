@@ -26,8 +26,7 @@ func check_victory():
 	if not human_has_planets:
 		return
 	victory_triggered = true
-	print("Victory!")
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1.2).timeout
 	get_tree().change_scene_to_file("res://scenes/levels/main_menu.tscn")
 
 func send_ships(from: Planet, to: Planet, player: BasePlayer = null):
