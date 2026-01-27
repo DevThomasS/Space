@@ -7,7 +7,7 @@ var selected_planet: Planet = null
 
 func _ready():
 	add_child(queries)
-	blinky.level_one = self
+	blinky.level = self
 	blinky.queries = queries
 	add_child(blinky)
 

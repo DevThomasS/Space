@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://07ueak18h10d"]
 
-[ext_resource type="Script" uid="uid://bhlfl020banrk" path="res://scripts/planet.gd" id="1_wsaxd"]
-[ext_resource type="Script" uid="uid://ctkt32fwb3b3w" path="res://scripts/orbit.gd" id="2_744xv"]
+[ext_resource type="Script" uid="uid://bhlfl020banrk" path="res://scripts/core/planet.gd" id="1_wsaxd"]
+[ext_resource type="Script" uid="uid://ctkt32fwb3b3w" path="res://scripts/core/orbit.gd" id="2_744xv"]
 
 [sub_resource type="Gradient" id="Gradient_6r00q"]
 offsets = PackedFloat32Array(0, 0.99333334)

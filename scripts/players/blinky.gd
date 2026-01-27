@@ -1,10 +1,10 @@
-class_name Blinky extends Node
+class_name Blinky extends BasePlayer
 
 @export var send_interval := 2.5
 @export var min_ships_to_send := 10
 
 var timer := 0.0
-var level_one: LevelOne
+var level: BaseLevel
 var queries: PlanetQuery
 
 func _process(delta):
@@ -23,4 +23,4 @@ func take_turn():
 
 		var target := queries.get_closest_planet(planet, targets)
 		if target:
-			level_one.send_ships(planet, target)
+			level.send_ships(planet, target)
