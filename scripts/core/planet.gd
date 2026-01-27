@@ -1,46 +1,52 @@
 class_name Planet extends Node2D
 
-enum Faction { NEUTRAL, PLAYER, AI }
+signal owner_changed(new_owner: BasePlayer)
 
-@export var faction: Faction = Faction.NEUTRAL
 @export var spawn_rate := 1.0
-@export var max_ships := 50
+@export var max_ships := 30
 
-@onready var sprite := $Sprite2D
 @onready var orbit: Orbit = $Orbit
+@onready var button: Button = $Button
 
 var spawn_timer := 0.0
 var defenders := 0
-var level_ref: BaseLevel
+var controlling_player: BasePlayer = null
+var is_selected := false
 
 func _ready():
 	z_index = 1
+	add_to_group("planets")
 	defenders = orbit.count()
-	update_color()
-
-func update_color():
-	match faction:
-		Faction.NEUTRAL:
-			sprite.modulate = Color.GRAY
-		Faction.PLAYER:
-			sprite.modulate = Color.CORNFLOWER_BLUE
-		Faction.AI:
-			sprite.modulate = Color.INDIAN_RED
-	if level_ref:
-		level_ref.call_deferred("check_victory")
+	call_deferred("update_color")
 
 func _process(delta):
-	if faction == Faction.NEUTRAL:
+	if controlling_player == null or orbit.count() >= max_ships:
 		return
-	if orbit.count() >= max_ships:
-		return
+
 	spawn_timer += delta
 	if spawn_timer >= 1.0 / spawn_rate:
 		spawn_timer = 0.0
 		spawn_ship()
 
+# --- Ownership ---
+func set_controlling_player(player: BasePlayer) -> void:
+	if controlling_player == player:
+		return
+	controlling_player = player
+	update_color()
+	owner_changed.emit(player)
+
+func update_color():
+	var c := Color(0.745, 0.745, 0.745, 1)
+	if controlling_player:
+		c = controlling_player.color
+		if is_selected:
+			c = c.lightened(0.2)
+	button.modulate = c
+
+# --- Ships ---
 func spawn_ship():
-	var ship := preload("res://scenes/Ship.tscn").instantiate()
+	var ship := preload("res://scenes/core/ship.tscn").instantiate()
 	orbit.add_ship(ship)
 	defenders += 1
 
@@ -51,17 +57,19 @@ func remove_orbit_ship(ship: Ship) -> void:
 	orbit.remove_ship(ship)
 	defenders = max(defenders - 1, 0)
 
-func receive_ship(from_faction: Faction):
-	if from_faction == faction:
+func receive_ship(from_player: BasePlayer):
+	if from_player == null:
+		return
+	if controlling_player == from_player:
 		add_reinforcement()
 		return
+
 	defenders -= 1
 	if defenders < 0:
-		faction = from_faction
-		update_color()
+		set_controlling_player(from_player)
 		defenders = abs(defenders)
 
 func add_reinforcement():
-	var ship := preload("res://scenes/Ship.tscn").instantiate()
+	var ship := preload("res://scenes/core/ship.tscn").instantiate()
 	orbit.add_ship(ship)
 	defenders += 1
