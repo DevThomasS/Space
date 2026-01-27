@@ -19,7 +19,7 @@ func take_turn():
 		return
 	var targets = queries.get_not_player(self)
 	for planet in my_planets:
-		if planet.controlling_player != self or planet.available_ships() < min_ships_to_send:
+		if planet.controlling_player != self or planet.orbit.count() < min_ships_to_send:
 			continue
 		var target := queries.get_closest_planet(planet, targets)
 		if target:

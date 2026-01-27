@@ -46,7 +46,7 @@ func try_send_ship(orbit: Orbit, from: Planet, to: Planet):
 	if orbit.count() == 0:
 		return
 	var ship := orbit.ships[0]
-	from.remove_orbit_ship(ship)
+	orbit.remove_ship(ship)
 	ship.state = ship.State.TRAVELING
 	ship.from_planet = from
 	ship.to_planet = to
