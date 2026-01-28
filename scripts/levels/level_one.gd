@@ -1,14 +1,14 @@
 class_name LevelOne extends BaseLevel
 
-@export var human_start_planet: Planet
-@export var blinky_start_planet: Planet
+@export var human_start_planet: SmallPlanet
+@export var blinky_start_planet: SmallPlanet
 
 @onready var queries := PlanetQuery.new()
 @onready var human := Human.new()
 @onready var blinky := Blinky.new()
 
 func _ready():
-	add_child(queries)
+	queries.setup(get_tree())
 	# Assign human player
 	human.level = self
 	if human_start_planet:

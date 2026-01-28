@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://07ueak18h10d"]
 
-[ext_resource type="Script" uid="uid://bhlfl020banrk" path="res://scripts/core/planet.gd" id="1_wsaxd"]
-[ext_resource type="Script" uid="uid://ctkt32fwb3b3w" path="res://scripts/core/orbit.gd" id="2_744xv"]
-[ext_resource type="AudioStream" uid="uid://cy3fvilhasf1a" path="res://assets/capture.wav" id="3_qu5ch"]
-[ext_resource type="AudioStream" uid="uid://cjmu4ey2flrf7" path="res://assets/pulse.wav" id="4_7bwmi"]
+[ext_resource type="Script" uid="uid://db10n8kfsbm2i" path="res://scripts/planets/base_planet.gd" id="1_7bwmi"]
+[ext_resource type="PackedScene" uid="uid://b6f77857cqd1g" path="res://scenes/core/orbit.tscn" id="2_7bwmi"]
+[ext_resource type="AudioStream" uid="uid://cy3fvilhasf1a" path="res://assets/audio/capture.wav" id="3_qu5ch"]
+[ext_resource type="AudioStream" uid="uid://cjmu4ey2flrf7" path="res://assets/audio/pulse.wav" id="4_7bwmi"]
 
 [sub_resource type="Gradient" id="Gradient_ojvo4"]
 offsets = PackedFloat32Array(0, 0.28666666, 1)
@@ -16,10 +16,9 @@ height = 32
 fill_from = Vector2(0, 1)
 
 [node name="Planet" type="Node2D" groups=["planets"]]
-script = ExtResource("1_wsaxd")
+script = ExtResource("1_7bwmi")
 
-[node name="Orbit" type="Node2D" parent="."]
-script = ExtResource("2_744xv")
+[node name="Orbit" parent="." instance=ExtResource("2_7bwmi")]
 
 [node name="Button" type="Button" parent="."]
 anchors_preset = 8

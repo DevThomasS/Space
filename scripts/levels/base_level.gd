@@ -4,7 +4,7 @@ class_name BaseLevel extends Node2D
 
 var send_fraction := 0.5
 var players: Array[BasePlayer] = []
-var selected_planet: Planet = null
+var selected_planet: BasePlanet = null
 var victory_triggered := false
 var initializing := true
 
@@ -29,7 +29,7 @@ func check_victory():
 	await get_tree().create_timer(1.2).timeout
 	get_tree().change_scene_to_file("res://scenes/levels/main_menu.tscn")
 
-func send_ships(from: Planet, to: Planet, player: BasePlayer = null):
+func send_ships(from: BasePlanet, to: BasePlanet, player: BasePlayer = null):
 	if not from or not to:
 		return
 	var sender := player if player != null else from.controlling_player
@@ -44,7 +44,7 @@ func send_ships(from: Planet, to: Planet, player: BasePlayer = null):
 	for i in range(to_send):
 		try_send_ship(orbit, from, to)
 
-func try_send_ship(orbit: Orbit, from: Planet, to: Planet):
+func try_send_ship(orbit: Orbit, from: BasePlanet, to: BasePlanet):
 	if orbit.count() == 0:
 		return
 	var ship := orbit.ships[0]
@@ -57,7 +57,7 @@ func try_send_ship(orbit: Orbit, from: Planet, to: Planet):
 	ship.t = 0.0
 	fleets.add_child(ship)
 
-func planet_clicked(clicked: Planet):
+func planet_clicked(clicked: BasePlanet):
 	if selected_planet:
 		# Only send ships if they are different planets
 		if selected_planet != clicked:

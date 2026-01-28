@@ -1,10 +1,8 @@
-class_name Planet extends Node2D
+class_name BasePlanet extends Node2D
 
 signal owner_changed(new_owner)
 
-@export var spawn_rate := 1.0
-@export var max_ships := 30
-@export var capture_time := 5.0
+@export var data: BasePlanetData
 
 @onready var orbit: Orbit = $Orbit
 @onready var button: Button = $Button
@@ -15,7 +13,6 @@ signal owner_changed(new_owner)
 var spawn_timer := 0.0
 var controlling_player: BasePlayer
 var is_selected := false
-
 var contested := false
 var capture_timer := 0.0
 var pending_owner: BasePlayer
@@ -42,7 +39,7 @@ func _process(delta):
 		capture_timer -= delta
 
 		if pending_owner:
-			var ratio: float = clamp( (capture_time - capture_timer) / capture_time, 0.0, 1.0 )
+			var ratio: float = clamp( (data.capture_time - capture_timer) / data.capture_time, 0.0, 1.0 )
 			capture_bar.visible = true
 			capture_bar.color = pending_owner.color
 			capture_bar.color.a = ratio
@@ -55,11 +52,11 @@ func _process(delta):
 		return
 
 	# --- Normal spawning ---
-	if not controlling_player or orbit.count() >= max_ships:
+	if not controlling_player or orbit.count() >= data.max_ships:
 		return
 
 	spawn_timer += delta
-	if spawn_timer >= 1.0 / spawn_rate:
+	if spawn_timer >= 1.0 / data.spawn_interval:
 		spawn_timer = 0.0
 		spawn_ship()
 
@@ -70,7 +67,7 @@ func receive_ship(ship: Ship):
 	if controlling_player == null and not contested and not orbit.in_combat:
 		contested = true
 		pending_owner = ship.controlling_player
-		capture_timer = capture_time
+		capture_timer = data.capture_time
 
 # --- Combat Callbacks ---
 func _on_combat_started():
@@ -86,7 +83,7 @@ func _on_combat_resolved(result: Dictionary):
 	if controlling_player != winner:
 		contested = true
 		pending_owner = winner
-		capture_timer = capture_time
+		capture_timer = data.capture_time
 
 		# Start visual immediately
 		capture_bar.visible = true

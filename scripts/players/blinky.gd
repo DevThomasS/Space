@@ -1,4 +1,4 @@
-class_name Blinky extends BasePlayer
+class_name Blinky extends AIController
 
 @export var send_interval := 2.5
 @export var min_ships_to_send := 10

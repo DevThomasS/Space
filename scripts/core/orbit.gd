@@ -3,9 +3,7 @@ class_name Orbit extends Node2D
 signal combat_started
 signal combat_resolved(result)
 
-@export var radius := 48.0
-@export var rotation_speed := 0.3
-@export var combat_tick_rate := 0.5 # seconds per combat tick
+@export var data: OrbitData
 
 var ships: Array[Ship] = []
 var in_combat := false
@@ -13,11 +11,11 @@ var combat_timer := 0.0
 var ship_destroyed_sound: AudioStreamPlayer
 
 func _process(delta):
-	rotation += rotation_speed * delta
+	rotation += data.rotation_speed * delta
 
 	if in_combat:
 		combat_timer += delta
-		if combat_timer >= combat_tick_rate:
+		if combat_timer >= data.combat_tick_rate:
 			combat_timer = 0.0
 			_tick_combat()
 
@@ -45,7 +43,7 @@ func update_positions():
 		return
 	for i in range(ship_count):
 		var angle := TAU * float(i) / float(ship_count)
-		ships[i].position = Vector2(cos(angle), sin(angle)) * radius
+		ships[i].position = Vector2(cos(angle), sin(angle)) * data.radius
 
 # -------------------------------------------------
 # Combat control
@@ -69,7 +67,7 @@ func _tick_combat():
 	if fleets.size() <= 1:
 		_end_combat(fleets)
 		return
-	var result := Combat.resolve_orbit_combat(fleets, combat_tick_rate)
+	var result := Combat.resolve_orbit_combat(fleets, data.combat_tick_rate)
 	for ship in result.destroyed:
 		if ship_destroyed_sound:
 			play_destroy_ship_sound(ship)

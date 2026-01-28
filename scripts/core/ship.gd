@@ -2,14 +2,14 @@ class_name Ship extends Node2D
 
 enum State { ORBITING, TRAVELING }
 
+@export var travel_speed := 200.0
+
 @onready var sprite := $Sprite2D
 
 var state := State.ORBITING
-var from_planet: Planet
-var to_planet: Planet
+var from_planet: BasePlanet
+var to_planet: BasePlanet
 var controlling_player: BasePlayer
-
-@export var travel_speed := 200.0
 var t := 0.0
 
 func _ready():
