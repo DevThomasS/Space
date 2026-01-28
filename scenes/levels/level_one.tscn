@@ -1,9 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://bf6m3nn7ne1ur"]
+[gd_scene load_steps=13 format=3 uid="uid://bf6m3nn7ne1ur"]
 
 [ext_resource type="Script" uid="uid://n3nrs0sfye2d" path="res://scripts/levels/level_one.gd" id="1_sn7cj"]
 [ext_resource type="PackedScene" uid="uid://07ueak18h10d" path="res://scenes/core/planet.tscn" id="2_63ct5"]
 [ext_resource type="Script" uid="uid://blq4ke37kmnfn" path="res://scripts/planets/small_planet.gd" id="3_63ct5"]
 [ext_resource type="Script" uid="uid://dweiror4fnyb7" path="res://scripts/planets/resources/small_planet_data.gd" id="4_5tayq"]
+[ext_resource type="Script" uid="uid://bqvfsbab6mhsc" path="res://scripts/players/blinky_ai.gd" id="5_c6gv3"]
+[ext_resource type="Script" uid="uid://1gkqby8wqp5b" path="res://scripts/players/resources/player_data.gd" id="7_623cv"]
+[ext_resource type="Script" uid="uid://b1jqck1giajcg" path="res://scripts/players/human.gd" id="7_w53h0"]
 
 [sub_resource type="Resource" id="Resource_c6gv3"]
 script = ExtResource("4_5tayq")
@@ -16,6 +19,14 @@ metadata/_custom_type_script = "uid://dweiror4fnyb7"
 [sub_resource type="Resource" id="Resource_w53h0"]
 script = ExtResource("4_5tayq")
 metadata/_custom_type_script = "uid://dweiror4fnyb7"
+
+[sub_resource type="Resource" id="Resource_623cv"]
+script = ExtResource("7_623cv")
+metadata/_custom_type_script = "uid://1gkqby8wqp5b"
+
+[sub_resource type="Resource" id="Resource_u6gdm"]
+script = ExtResource("7_623cv")
+metadata/_custom_type_script = "uid://1gkqby8wqp5b"
 
 [node name="LevelOne" type="Node2D" node_paths=PackedStringArray("human_start_planet", "blinky_start_planet")]
 script = ExtResource("1_sn7cj")
@@ -42,3 +53,11 @@ data = SubResource("Resource_vsfy4")
 position = Vector2(431, 286)
 script = ExtResource("3_63ct5")
 data = SubResource("Resource_w53h0")
+
+[node name="BlinkyAI" type="Node2D" parent="."]
+script = ExtResource("5_c6gv3")
+data = SubResource("Resource_623cv")
+
+[node name="Human" type="Node2D" parent="."]
+script = ExtResource("7_w53h0")
+data = SubResource("Resource_u6gdm")

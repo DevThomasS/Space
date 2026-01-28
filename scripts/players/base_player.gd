@@ -1,13 +1,13 @@
 class_name BasePlayer extends Node
 
-@export var fleet_dps: float = 0.25
+@export var data: PlayerData
 
-var max_population := 0
-var current_population := 0
-var my_planets: Array[BasePlanet] = []
 var color: Color = Color.GRAY
+var my_planets: Array[BasePlanet] = []
 var queries: PlanetQuery
 var level: BaseLevel
+var max_population := 0 # TODO: Implement
+var current_population := 0 # TODO: Implement
 
 # BasePlayer never changes ownership.
 # Planet.set_controlling_player() is the single authority.

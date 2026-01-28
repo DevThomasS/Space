@@ -7,7 +7,7 @@ static func resolve_orbit_combat(fleets: Dictionary, delta: float) -> Dictionary
 	var dps := {}
 	for player in fleets.keys():
 		var ship_count: int = fleets[player].size()
-		dps[player] = ship_count * player.fleet_dps
+		dps[player] = ship_count * player.data.fleet_dps
 
 	# Apply damage over time
 	for target_player in fleets.keys():

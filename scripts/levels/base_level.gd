@@ -13,7 +13,7 @@ func check_victory():
 		return
 	var ai_has_planets := false
 	for player in players:
-		if player is Blinky and player.my_planets.size() > 0:
+		if player is BlinkyAI and player.my_planets.size() > 0:
 			ai_has_planets = true
 			break
 	if ai_has_planets:
@@ -58,14 +58,28 @@ func try_send_ship(orbit: Orbit, from: BasePlanet, to: BasePlanet):
 	fleets.add_child(ship)
 
 func planet_clicked(clicked: BasePlanet):
+	var human_player = null
+	# If a planet is already selected, attempt to send ships
 	if selected_planet:
-		# Only send ships if they are different planets
 		if selected_planet != clicked:
-			# Use the controlling player's level to send ships
-			if selected_planet.controlling_player:
-				selected_planet.controlling_player.level.send_ships(selected_planet, clicked)
+			# Ensure selected planet is valid to send from (controlled or has human ships)
+			for p in players:
+				if p is Human:
+					human_player = p
+					break
+			if human_player:
+				var ships_available = selected_planet.orbit.get_ships_for_player(human_player)
+				if selected_planet.controlling_player == human_player or ships_available > 0:
+					human_player.level.send_ships(selected_planet, clicked)
 		selected_planet = null
 		return
-	# No planet selected yet, select if human
-	if clicked.controlling_player and clicked.controlling_player is Human:
-		selected_planet = clicked
+
+	# No planet selected yet, select if human-controlled or has human ships in orbit
+	for p in players:
+		if p is Human:
+			human_player = p
+			break
+	if human_player:
+		var ships_available = clicked.orbit.get_ships_for_player(human_player)
+		if clicked.controlling_player == human_player or ships_available > 0:
+			selected_planet = clicked
