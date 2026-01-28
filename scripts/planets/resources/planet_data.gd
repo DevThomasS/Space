@@ -1,4 +1,4 @@
-class_name BasePlanetData extends Resource
+class_name PlanetData extends Resource
 
 @export var spawn_interval := 1.0
 @export var max_ships := 30

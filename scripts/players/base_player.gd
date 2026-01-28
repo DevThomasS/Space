@@ -1,6 +1,7 @@
 class_name BasePlayer extends Node
 
 @export var data: PlayerData
+@export var starting_planets: Array[BasePlanet] = []
 
 var color: Color = Color.GRAY
 var my_planets: Array[BasePlanet] = []
