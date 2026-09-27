@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://b7m7bu0xitpqt"]
+
+[ext_resource type="Script" uid="uid://b85juuekmjc2n" path="res://scripts/levels/base_level.gd" id="1_7ry6i"]
+[ext_resource type="PackedScene" uid="uid://07ueak18h10d" path="res://scenes/core/planet.tscn" id="2_vmov0"]
+[ext_resource type="Script" uid="uid://blq4ke37kmnfn" path="res://scripts/planets/small_planet.gd" id="3_7s1bx"]
+[ext_resource type="Script" uid="uid://bhv0itok6p2oc" path="res://scripts/planets/resources/planet_data.gd" id="4_jbu4w"]
+[ext_resource type="PackedScene" uid="uid://riss0yfiyls2" path="res://scenes/core/player.tscn" id="5_s458d"]
+[ext_resource type="Script" uid="uid://bqvfsbab6mhsc" path="res://scripts/players/blinky_ai.gd" id="6_31lil"]
+[ext_resource type="Script" uid="uid://b1jqck1giajcg" path="res://scripts/players/human.gd" id="7_4pegr"]
+
+[sub_resource type="Resource" id="Resource_623cv"]
+script = ExtResource("4_jbu4w")
+metadata/_custom_type_script = "uid://bhv0itok6p2oc"
+
+[node name="LevelOne" type="Node2D" unique_id=2084155354]
+script = ExtResource("1_7ry6i")
+
+[node name="Map" type="Node2D" parent="." unique_id=2118713947]
+
+[node name="Fleets" type="Node2D" parent="." unique_id=489025460]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=555753514]
+
+[node name="PlanetA" parent="." unique_id=1840107090 instance=ExtResource("2_vmov0")]
+position = Vector2(128, 160)
+script = ExtResource("3_7s1bx")
+data = SubResource("Resource_623cv")
+
+[node name="PlanetB" parent="." unique_id=1724847874 instance=ExtResource("2_vmov0")]
+position = Vector2(128, 544)
+script = ExtResource("3_7s1bx")
+
+[node name="PlanetC" parent="." unique_id=86616958 instance=ExtResource("2_vmov0")]
+position = Vector2(416, 352)
+script = ExtResource("3_7s1bx")
+
+[node name="BlinkyAI" parent="." unique_id=1541915910 node_paths=PackedStringArray("starting_planets") instance=ExtResource("5_s458d")]
+script = ExtResource("6_31lil")
+starting_planets = [NodePath("../PlanetF"), NodePath("../PlanetG")]
+
+[node name="Human" parent="." unique_id=1376412298 node_paths=PackedStringArray("starting_planets") instance=ExtResource("5_s458d")]
+script = ExtResource("7_4pegr")
+starting_planets = [NodePath("../PlanetD")]
+
+[node name="PlanetD" parent="." unique_id=1207786109 instance=ExtResource("2_vmov0")]
+position = Vector2(672, 352)
+
+[node name="PlanetE" parent="." unique_id=405109358 instance=ExtResource("2_vmov0")]
+position = Vector2(928, 352)
+
+[node name="PlanetF" parent="." unique_id=1195826524 instance=ExtResource("2_vmov0")]
+position = Vector2(1152, 160)
+
+[node name="PlanetG" parent="." unique_id=818899920 instance=ExtResource("2_vmov0")]
+position = Vector2(1152, 544)

@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://barujq5xip6s"]
+[gd_scene format=3 uid="uid://barujq5xip6s"]
 
 [ext_resource type="Script" uid="uid://84qw2f5fvcnn" path="res://scripts/levels/main_menu.gd" id="1_fsby3"]
 
-[node name="MainMenu" type="CanvasLayer"]
+[node name="MainMenu" type="CanvasLayer" unique_id=106736133]
 script = ExtResource("1_fsby3")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1653507520]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -19,32 +19,32 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="SettingsButton" type="Button" parent="VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="VBoxContainer" unique_id=152629075]
 layout_mode = 2
 
-[node name="SettingsLabel" type="Label" parent="VBoxContainer/SettingsButton"]
+[node name="SettingsLabel" type="Label" parent="VBoxContainer/SettingsButton" unique_id=1651658918]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Settings"
 
-[node name="GameNameLabel" type="Label" parent="VBoxContainer"]
+[node name="GameNameLabel" type="Label" parent="VBoxContainer" unique_id=832037245]
 layout_mode = 2
 text = "Space"
 
-[node name="LevelOneButton" type="Button" parent="VBoxContainer"]
+[node name="LevelOneButton" type="Button" parent="VBoxContainer" unique_id=1225379196]
 layout_mode = 2
 
-[node name="LevelOneLabel" type="Label" parent="VBoxContainer/LevelOneButton"]
+[node name="LevelOneLabel" type="Label" parent="VBoxContainer/LevelOneButton" unique_id=787677401]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "1"
 
-[node name="LevelTwoButton" type="Button" parent="VBoxContainer"]
+[node name="LevelTwoButton" type="Button" parent="VBoxContainer" unique_id=1937270553]
 layout_mode = 2
 
-[node name="LevelTwoLabel" type="Label" parent="VBoxContainer/LevelTwoButton"]
+[node name="LevelTwoLabel" type="Label" parent="VBoxContainer/LevelTwoButton" unique_id=1176951401]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0

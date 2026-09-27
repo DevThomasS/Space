@@ -12,4 +12,4 @@ func _on_level_one_pressed():
 	get_tree().change_scene_to_file("res://scenes/levels/level_one.tscn")
 
 func _on_level_two_pressed():
-	print("Level 2 not implemented yet")
+	get_tree().change_scene_to_file("res://scenes/levels/level_two.tscn")
